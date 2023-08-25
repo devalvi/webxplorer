@@ -1,9 +1,9 @@
 const fs = require('fs')
 const path = require('path')
-const cache = require('../cache')
-const express = cache.require('express');
-const mime = cache.require('mime')
+const express = require('express');
+const mime = require('mime')
 const database = require('../database');
+const url = require('url');
 const { MediaModel } = database.Models;
 const router = express.Router();
 // database.connect()
@@ -15,28 +15,24 @@ const router = express.Router();
 *
 */
 
-const sortAccordingTo = {
-  size: () => {
 
-  },
-  date: () => {
+;(async () => {
+  let res = await MediaModel.read({})
+  console.log(sort(res, 'ascending').bySize())
+})();
 
-  },
-  alphabet: () => {
+router.get('/search?q', async function(request, response){
 
-  },
-  frequency: () => {
+})
 
-  }
-};
-
-
-router.get('/:mediatype/?sort=largetosmall', async function(request, response, next) {
+router.get('/:mediatype?sort=alphabet|date|accessed|size&order=ascending|descending&page=<number>', async function(request, response, next) {
+  //when GET /<mediatype> default return is for /<mediatype>?sort=date&order=ascending&page=1
   const media = request.params.mediatype
+  const order = request.query
   /**
    * 
    * 
-   */
+   */       
 
 });
 
@@ -45,7 +41,7 @@ router.get('/resource/:id', async function(request, response){
   const fileID = request.params.id;
   const data = await MediaModel.read({_id : fileID});
 
-  if (data.length == 0) return response
+  if (data.length === 0) return response
                           .status(404)
                           .send('Resource cannot be found!');
 

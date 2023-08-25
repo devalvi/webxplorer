@@ -1,9 +1,7 @@
 const os = require('os');
 const path = require('path')
-const cache = require('./cache');
 const fs_actions = require('./fs-actions');
-const datastore = cache.require('nedb');
-const uuid = cache.require('uuid-by-string')
+const datastore = require('nedb');
 
 
 const Models = {};
@@ -53,11 +51,12 @@ function isValidType(format){
     return validity
 }
 
-async function createReadyDocument(filepath, size, mtimeMs){
+async function createReadyDocument(filepath, size, mtimeMs, accessed){
 
     const properties = {
           type: fs_actions.getFileType(filepath),
-          _id:  uuid(filepath)
+          _id:  uuid(filepath),
+          accessed: accessed || 0,
     }
     if(size === undefined || mtimeMs === undefined){
         const metadata = await fs_actions.getMetadata(filepath);

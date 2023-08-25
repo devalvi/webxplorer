@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Product Sans';
+  src: url('./Product Sans Bold.ttf');
+}
+
+#app {
+  margin: 0 auto;
+  font-family: 'Product Sans';
+}
+html {
+  background-color: rgb(6, 4, 21);
+}

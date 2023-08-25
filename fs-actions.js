@@ -1,7 +1,5 @@
 const { readdir, stat } = require('fs/promises')
 const path = require('path')
-const cache = require('./cache')
-const mime = cache.require('mime')
 
 
 const entries = [];

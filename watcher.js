@@ -17,7 +17,8 @@ function watcherUpdater(directory) {
     })
     watcher.on('change', async (file, stat) => {
         const document = database.createReadyDocument(file, stat.size, stat.mtimeMs);
-        delete document._id;
+        delete document._id; // Prevents modifying '_id' property
+        delete document.accessed; // Prevents modifying 'accessed' property
         await database.MediaCollection.update({ path: file }, document)
     })
     watcher.on('unlink', async file => {

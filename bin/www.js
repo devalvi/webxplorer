@@ -3,9 +3,8 @@
 /**
  * Module dependencies.
  */
-const cache = require('../cache')
 const app = require('../app');
-const debug = cache.require('debug')('webxplorer:server');
+const debug = require('debug')('webxplorer:server');
 const http = require('http');
 
 /**

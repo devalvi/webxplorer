@@ -1,4 +1,3 @@
-const cache = require('./cache')
 const watcher = require('./watcher');
 const database = require('./database');
 const rootRoute = require('./routes/index');
@@ -18,9 +17,9 @@ const source = config.baseDirectory;
     watcher.watcherUpdater(source)
 })();
 
-const express = cache.require('express');
-const cookieParser = cache.require('cookie-parser');
-const logger = cache.require('morgan');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const app = express();
 
 app.get('/', rootRoute)
