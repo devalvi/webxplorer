@@ -1,3 +1,9 @@
+const cache = require('./cache');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = cache.require('cors')
+
 const watcher = require('./watcher');
 const database = require('./database');
 const rootRoute = require('./routes/index');
@@ -17,12 +23,9 @@ const source = config.baseDirectory;
     watcher.watcherUpdater(source)
 })();
 
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const app = express();
 
-app.get('/', rootRoute)
+const app = express();
+app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({

@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
+
 </script>
 
 <template>
@@ -26,14 +26,17 @@ import { RouterLink, RouterView } from 'vue-router'
         <div class="sort"><font-awesome-icon style="color: rgb(127, 177, 210);" icon="sliders" /></div>
       </div>
   </header>
-  <RouterView />  <!-- enabling this shows root router -->
+  <RouterView />    <!-- enabling this shows root router -->
 </template>
 <style scoped>
 a {
   text-decoration: none;
   color: rgb(48, 190, 70);
  }
-header {
+header {  background-color: rgb(6, 4, 21);
+  position: fixed;
+  top: 0px;
+  margin-top: 0px;
   padding: 20px;
   display: flex;
   width: 100%;

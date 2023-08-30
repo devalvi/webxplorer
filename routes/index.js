@@ -1,42 +1,36 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express');
-const mime = require('mime')
+const cache = require('../cache')
+const mime = cache.require('mime')
 const database = require('../database');
 const url = require('url');
 const { MediaModel } = database.Models;
 const router = express.Router();
-// database.connect()
-/*
-* /(video | audio | document )/?sort=(large-small | old-new | A-Z | mostplayed-leastplayed)&page=1
-* /:filepath* ()
-*
-*
-*
-*/
-
-
-;(async () => {
-  let res = await MediaModel.read({})
-  console.log(sort(res, 'ascending').bySize())
-})();
-
-router.get('/search?q', async function(request, response){
-
+/** 
+ * search route
+ */
+router.get('/search', async function(request, response){
+    const { query } = request.query;
+    // search whole dataset for instances matching query, return array of items
+    const result = await MediaModel.read({})
 })
 
-router.get('/:mediatype?sort=alphabet|date|accessed|size&order=ascending|descending&page=<number>', async function(request, response, next) {
-  //when GET /<mediatype> default return is for /<mediatype>?sort=date&order=ascending&page=1
+router.get('/:mediatype', async function(request, response) {
+  //?sort=alphabet|date|accessed|size&order=ascending|descending&page=<number>
   const media = request.params.mediatype
-  const order = request.query
+  // const { page, sort, order } = request.query
+
+    response.json({results: await MediaModel.read({ type: media})})
+
   /**
    * 
    * 
    */       
 
 });
-
-router.get('/resource/:id', async function(request, response){
+ 
+router.get('/media/:id', async function(request, response){
 
   const fileID = request.params.id;
   const data = await MediaModel.read({_id : fileID});
@@ -55,11 +49,5 @@ router.get('/resource/:id', async function(request, response){
   response.writeHead(200, headers);
   fs.createReadStream(filepath).pipe(response)
 });
-router.get('/media', async (request, response) => {
-  const all = await MediaModel.read({})
-  all.forEach(obj => {
-    response.write('<a href="../resource/' + obj._id + '">' + path.basename(obj.path) + '</a><br/>')
-  })
-  response.end()
-})
+
 module.exports = router;
